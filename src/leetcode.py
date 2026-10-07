@@ -30,6 +30,16 @@ def find_smallest_positive(xs):
     >>> find_smallest_positive([-3, -2, -1]) is None
     True
     '''
+    def go(lo, hi):
+        if lo > hi:
+            if lo < len(xs) and xs[lo] > 0:
+                return lo
+            return None
+        mid = (lo + hi) // 2
+        if xs[mid] > 0:
+            return go(lo, mid - 1)
+        return go(mid + 1, hi)
+    return go(0, len(xs) -1)
 
 
 def find_largest_negative(xs, lo=0, hi=None):
@@ -50,6 +60,16 @@ def find_largest_negative(xs, lo=0, hi=None):
     >>> find_largest_negative([-3, -2, -1])
     2
     '''
+    if hi is None:
+        hi = len(xs) - 1
+    if lo > hi:
+        if hi >= 0 and xs[hi] < 0:
+            return hi
+        return None
+    mid = (lo + hi) // 2
+    if xs[mid] < 0:
+        return find_largest_negative(xs, mid + 1, hi)
+    return find_largest_negative(xs, lo, mid - 1)
 
 
 def find_smallest(xs, lo=0, hi=None):
@@ -73,6 +93,16 @@ def find_smallest(xs, lo=0, hi=None):
     >>> find_smallest([]) is None
     True
     '''
+    if len(xs) == 0:
+        return None
+    if hi is None:
+        hi = len(xs) - 1
+    if lo == hi:
+        return lo
+    mid = (lo + hi) // 2
+    if xs [mid] > xs [mid + 1]:
+        return find_smallest(xs, mid + 1, hi)
+    return find_smallest(xs, lo, mid)
 
 
 def count_repeats(xs, x):
@@ -96,3 +126,35 @@ def count_repeats(xs, x):
     >>> count_repeats([3, 2, 1], 4)
     0
     '''
+    start = helper_1(xs, x)
+    end = helper_2(xs, x)
+    return end - start
+
+def helper_1(xs, x):
+    '''
+    >>> helper_1([5, 4, 3, 3, 3, 2, 1], 3)
+    2
+    '''
+    def go(lo, hi):
+        if lo > hi:
+            return lo
+        mid = (lo + hi) // 2
+        if xs[mid] <= x:
+            return go(lo, mid - 1)
+        return go(mid + 1, hi)
+    return go(0, len(xs) - 1)
+
+
+def helper_2(xs, x):
+    '''
+    >>> helper_2([5, 4, 3, 3, 3, 2, 1], 3)
+    5
+    '''
+    def go(lo, hi):
+        if lo > hi:
+            return lo
+        mid = (lo + hi) // 2
+        if xs[mid] < x:
+            return go(lo, mid - 1)
+        return go(mid + 1, hi)
+    return go(0, len(xs) - 1)
