@@ -39,7 +39,7 @@ def find_smallest_positive(xs):
         if xs[mid] > 0:
             return go(lo, mid - 1)
         return go(mid + 1, hi)
-    return go(0, len(xs) -1)
+    return go(0, len(xs) - 1)
 
 
 def find_largest_negative(xs, lo=0, hi=None):
@@ -100,7 +100,7 @@ def find_smallest(xs, lo=0, hi=None):
     if lo == hi:
         return lo
     mid = (lo + hi) // 2
-    if xs [mid] > xs [mid + 1]:
+    if xs[mid] > xs[mid + 1]:
         return find_smallest(xs, mid + 1, hi)
     return find_smallest(xs, lo, mid)
 
@@ -129,6 +129,7 @@ def count_repeats(xs, x):
     start = helper_1(xs, x)
     end = helper_2(xs, x)
     return end - start
+
 
 def helper_1(xs, x):
     '''
